@@ -32,7 +32,7 @@ class TaskController extends Controller
      */
     public function store(Request $request, TaskRepository $repository): JsonResponse
     {
-        $created = $repository -> store($request -> only(['name', 'priority']));
+        $created = $repository -> store($request -> only(['name', 'priority', 'status', 'project_id', 'user_id']));
         return $this -> successResponse(new TaskResource($created), true, 'Project created', Response::HTTP_OK );
     }
 

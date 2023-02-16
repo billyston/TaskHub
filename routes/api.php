@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'api'], function ()
 {
+    // User resources
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function ()
+    {
+        Route::get('{user}/profile', [\App\Http\Controllers\UserController::class, 'get_profile'])->name('get_profile');
+        Route::get('{user}/tasks', [\App\Http\Controllers\UserController::class, 'get_tasks'])->name('get_tasks');
+    });
+
     // Project resources
     Route::group(['prefix' => 'projects', 'as' => 'projects.'], function ()
     {

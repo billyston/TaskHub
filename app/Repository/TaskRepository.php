@@ -23,12 +23,16 @@ class TaskRepository
         {
             $created = Task::query() -> create(
             [
+                'project_id' => data_get( $request, 'project_id'),
+                'user_id' => data_get( $request, 'user_id'),
+
                 'name' => data_get( $request, 'name'),
-                'priority' => data_get( $request, 'priority')
+                'priority' => data_get( $request, 'priority'),
+
+                'status' => data_get( $request, 'status', 'To Do'),
             ]);
 
             throw_if(!$created, Exception::class, "Something went wrong");
-
             return $created;
         });
     }

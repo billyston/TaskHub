@@ -15,6 +15,8 @@ return new class extends Migration
         {
             $table -> id();
             $table -> string( 'resource_id' ) -> unique() -> nullable( false );
+            $table -> foreignId( 'project_id' );
+            $table -> foreignId( 'user_id' );
 
             $table -> string('name');
             $table -> integer('priority');
@@ -22,6 +24,9 @@ return new class extends Migration
             $table -> string('status')->default("To Do");
 
             $table -> timestamps();
+
+            $table -> foreign('project_id' ) -> on( 'projects' ) -> references('id' ) -> onDelete( 'cascade' );
+            $table -> foreign('user_id' ) -> on( 'users' ) -> references('id' ) -> onDelete( 'cascade' );
         });
     }
 

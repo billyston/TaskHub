@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class UserTaskResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,14 +17,15 @@ class UserResource extends JsonResource
     {
         return
         [
-            'type'                          => 'User',
+            'type'                          => 'Task',
 
             'attributes'                    =>
             [
                 'resource_id'               => $this -> resource -> resource_id,
+                'status'                    => $this -> resource -> status,
 
                 'name'                      => $this -> resource -> name,
-                'emai'                      => $this -> resource -> email,
+                'priority'                  => $this -> resource -> priority,
 
                 'created_at'                => $this -> resource -> created_at -> toDateTimeString(),
                 'updated_at'                => $this -> resource -> updated_at -> toDateTimeString(),
