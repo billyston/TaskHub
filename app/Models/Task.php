@@ -20,9 +20,17 @@ class Task extends Model
     /**
      * @return BelongsTo
      */
-    public function project() : BelongsTo
+    public function status() : BelongsTo
     {
-        return $this -> belongsTo( Project::class);
+        return $this -> belongsTo( Status::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function priority() : BelongsTo
+    {
+        return $this -> belongsTo( Priority::class);
     }
 
     /**

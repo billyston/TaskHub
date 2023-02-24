@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Project extends Model
+class Status extends Model
 {
     use HasFactory;
 
@@ -18,18 +19,18 @@ class Project extends Model
     public function getRouteKeyName () : string { return 'resource_id'; }
 
     /**
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function statuses() : HasMany
+    public function project() : BelongsTo
     {
-        return $this -> hasMany( Status::class);
+        return $this -> belongsTo( Project::class);
     }
 
     /**
      * @return HasMany
      */
-    public function users() : HasMany
+    public function tasks() : HasMany
     {
-        return $this -> hasMany( User::class);
+        return $this -> hasMany( Task::class);
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Project extends Model
+class Priority extends Model
 {
     use HasFactory;
 
@@ -20,16 +20,8 @@ class Project extends Model
     /**
      * @return HasMany
      */
-    public function statuses() : HasMany
+    public function tasks() : HasMany
     {
-        return $this -> hasMany( Status::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function users() : HasMany
-    {
-        return $this -> hasMany( User::class);
+        return $this -> hasMany( Task::class);
     }
 }

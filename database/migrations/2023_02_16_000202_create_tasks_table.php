@@ -15,17 +15,19 @@ return new class extends Migration
         {
             $table -> id();
             $table -> string( 'resource_id' ) -> unique() -> nullable( false );
-            $table -> foreignId( 'project_id' );
+            $table -> foreignId( 'status_id' );
+            $table -> foreignId( 'priority_id' );
             $table -> foreignId( 'user_id' );
 
             $table -> string('name');
-            $table -> integer('priority');
 
-            $table -> string('status')->default("To Do");
+            $table -> date('start_date');
+            $table -> date('due_date');
 
             $table -> timestamps();
 
-            $table -> foreign('project_id' ) -> on( 'projects' ) -> references('id' ) -> onDelete( 'cascade' );
+            $table -> foreign('status_id' ) -> on( 'statuses' ) -> references('id' ) -> onDelete( 'cascade' );
+            $table -> foreign('priority_id' ) -> on( 'priorities' ) -> references('id' ) -> onDelete( 'cascade' );
             $table -> foreign('user_id' ) -> on( 'users' ) -> references('id' ) -> onDelete( 'cascade' );
         });
     }

@@ -3,24 +3,27 @@
 namespace App\Repository;
 
 use App\Models\Project;
+use App\Models\Status;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class ProjectRepository
+class StatusRepository
 {
     /**
      * Store a newly created resource in storage.
      * @param array $request
-     * @return Project
+     * @return Status
      */
-    public function store(array $request): Project
+    public function store(array $request): Status
     {
         return DB::transaction(function () use ($request)
         {
-            $created = Project::query() -> create(
+            $created = Status::query() -> create(
             [
                 "name" => data_get( $request, "name"),
-                "description" => data_get( $request, "description")
+                "description" => data_get( $request, "description"),
+
+                'project_id' => data_get( $request, 'project_id'),
             ]);
 
             throw_if(!$created, Exception::class, "Something went wrong");
@@ -31,36 +34,36 @@ class ProjectRepository
 
     /**
      * Update the specified resource in storage.
-     * @param Project $project
+     * @param Status $status
      * @param array $request
      * @return array
      */
-    public function update(Project $project, array $request): array
+    public function update(Status $status, array $request): array
     {
-        return DB::transaction(function () use ($project, $request)
+        return DB::transaction(function () use ($status, $request)
         {
-            $updated = $project -> update(
+            $updated = $status -> update(
             [
-                'name' => data_get( $request, 'name', $project -> name),
-                'description' => data_get( $request, 'description', $project -> description)
+                'name' => data_get( $request, 'name', $status -> name),
+                'description' => data_get( $request, 'description', $status -> description)
             ]);
 
             throw_if(!$updated, Exception::class, 'Service is unavailable, please retry again later.');
 
-            return $project -> toArray();
+            return $status -> toArray();
         });
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param Project $project
+     * @param Status $status
      * @return bool
      */
-    public function destroy(Project $project): bool
+    public function destroy(Status $status): bool
     {
-        return DB::transaction(function () use($project)
+        return DB::transaction(function () use($status)
         {
-            $deleted = $project->forceDelete();
+            $deleted = $status->forceDelete();
             throw_if(!$deleted, Exception::class, "Cannot delete post.");
 
             return $deleted;

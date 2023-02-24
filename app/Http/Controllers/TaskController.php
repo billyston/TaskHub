@@ -32,8 +32,8 @@ class TaskController extends Controller
      */
     public function store(Request $request, TaskRepository $repository): JsonResponse
     {
-        $created = $repository -> store($request -> only(['name', 'priority', 'status', 'project_id', 'user_id']));
-        return $this -> successResponse(new TaskResource($created), true, 'Project created', Response::HTTP_OK );
+        $created = $repository -> store($request -> only(['priority_id', 'status_id', 'user_id', 'name', 'start_date', 'due_date']));
+        return $this -> successResponse(new TaskResource($created), true, 'Task created', Response::HTTP_CREATED );
     }
 
     /**
@@ -55,8 +55,21 @@ class TaskController extends Controller
      */
     public function update(Task $task, Request $request, TaskRepository $repository): JsonResponse
     {
-        $repository -> update($task, $request -> only(['name', 'priority']));
-        return $this -> successResponse(new TaskResource($task), true, 'Project updated', Response::HTTP_OK );
+        $repository -> update($task, $request -> only(['name', 'start_date', 'due_date',  'status_id']));
+        return $this -> successResponse(new TaskResource($task), true, 'Task updated', Response::HTTP_OK );
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param Task $task
+     * @param Request $request
+     * @param TaskRepository $repository
+     * @return JsonResponse
+     */
+    public function updateStatus(Task $task, Request $request, TaskRepository $repository): JsonResponse
+    {
+        $repository -> update($task, $request -> only(['status_id']));
+        return $this -> successResponse(new TaskResource($task), true, 'Task status updated', Response::HTTP_OK );
     }
 
     /**

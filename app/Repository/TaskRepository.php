@@ -23,16 +23,19 @@ class TaskRepository
         {
             $created = Task::query() -> create(
             [
-                'project_id' => data_get( $request, 'project_id'),
+                'priority_id' => data_get( $request, 'priority_id'),
+                'status_id' => data_get( $request, 'status_id'),
                 'user_id' => data_get( $request, 'user_id'),
 
                 'name' => data_get( $request, 'name'),
-                'priority' => data_get( $request, 'priority'),
 
-                'status' => data_get( $request, 'status', 'To Do'),
+                'start_date' => data_get( $request, 'start_date'),
+                'due_date' => data_get( $request, 'due_date'),
+
             ]);
 
             throw_if(!$created, Exception::class, "Something went wrong");
+
             return $created;
         });
     }
@@ -49,8 +52,11 @@ class TaskRepository
         {
             $updated = $task -> update(
             [
+                'status_id' => data_get( $request, 'status_id', $task -> status_id),
+
                 'name' => data_get( $request, 'name', $task -> name),
-                'priority' => data_get( $request, 'priority', $task -> priority)
+                'start_date' => data_get( $request, 'start_date', $task -> start_date),
+                'due_date' => data_get( $request, 'due_date', $task -> due_date),
             ]);
             throw_if(!$updated, Exception::class, 'Service is unavailable, please retry again later.');
 
@@ -68,7 +74,7 @@ class TaskRepository
         return DB::transaction(function () use($task)
         {
             $deleted = $task->forceDelete();
-            throw_if(!$deleted, Exception::class, "cannot delete post.");
+            throw_if(!$deleted, Exception::class, "Cannot delete post.");
 
             return $deleted;
         });

@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @method relationLoaded(string $string)
  */
-class ProjectResource extends JsonResource
+class StatusResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class ProjectResource extends JsonResource
     {
         return
         [
-            'type'                          => 'Project',
+            'type'                          => 'Status',
 
             'attributes'                    =>
             [
@@ -34,9 +34,9 @@ class ProjectResource extends JsonResource
                 'updated_at'                => $this -> resource -> updated_at -> toDateTimeString(),
             ],
 
-            'include'                       => $this -> when( $this -> relationLoaded( 'statuses' ) || $this -> relationLoaded( 'address' ) || $this -> relationLoaded( 'kyc' ) || $this -> relationLoaded( 'merchants' ) || $this -> relationLoaded( 'wallets' ),
+            'include'                       => $this -> when( $this -> relationLoaded( 'tasks' ) || $this -> relationLoaded( 'address' ) || $this -> relationLoaded( 'kyc' ) || $this -> relationLoaded( 'merchants' ) || $this -> relationLoaded( 'wallets' ),
             [
-                'statuses'                  => StatusResource::collection( $this -> whenLoaded( 'statuses' ) ),
+                'tasks'                     => TaskResource::collection( $this -> whenLoaded( 'tasks' ) ),
             ])
         ];
     }

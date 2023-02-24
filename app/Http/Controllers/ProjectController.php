@@ -6,13 +6,14 @@ use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Repository\ProjectRepository;
 use App\Traits\apiResponseBuilder;
+use App\Traits\Relatives;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller
 {
-    use apiResponseBuilder;
+    use apiResponseBuilder, Relatives;
 
     /**
      * Display a listing of the resource.
@@ -20,8 +21,9 @@ class ProjectController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Project::query() -> get();
-        return $this -> successResponse(ProjectResource::collection($posts), true, '', Response::HTTP_OK );
+        $project = Project::query() -> get();
+        if ( $this -> loadRelationships() ) { $project -> load( $this -> relationships ); }
+        return $this -> successResponse(ProjectResource::collection($project), true, '', Response::HTTP_OK );
     }
 
     /**
@@ -33,7 +35,7 @@ class ProjectController extends Controller
     public function store(Request $request, ProjectRepository $repository): JsonResponse
     {
         $created = $repository -> store($request -> only(['name', 'description']));
-        return $this -> successResponse(new ProjectResource($created), true, 'Project created', Response::HTTP_OK );
+        return $this -> successResponse(new ProjectResource($created), true, 'Project created', Response::HTTP_CREATED );
     }
 
     /**
@@ -43,6 +45,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project): JsonResponse
     {
+        if ( $this -> loadRelationships() ) { $project -> load( $this -> relationships ); }
         return $this -> successResponse(new ProjectResource($project), true, '', Response::HTTP_OK );
     }
 
