@@ -24,7 +24,8 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $levels = [
+    protected $levels =
+    [
         //
     ];
 
@@ -33,7 +34,8 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontReport = [
+    protected $dontReport =
+    [
         //
     ];
 
@@ -42,7 +44,8 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontFlash = [
+    protected $dontFlash =
+    [
         'current_password',
         'password',
         'password_confirmation',
@@ -87,9 +90,10 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
-    public function register(): void
+    public function register() : void
     {
-        $this->reportable(function (Throwable $e) {
+        $this -> reportable(function ( Throwable $e )
+        {
             //
         });
     }
